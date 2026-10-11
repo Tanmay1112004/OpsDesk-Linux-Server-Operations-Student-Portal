@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Linux operations student administration portal">
+  <title>OpsDesk | Student Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="OpsDesk home">
+        <span class="brand-mark">O<span>.</span></span>
+        <span class="brand-name">Ops<span>Desk</span><small>LINUX OPERATIONS</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <a class="nav-item active" href="#dashboard"><span class="nav-icon">▦</span> Overview</a>
+      <a class="nav-item" href="#students"><span class="nav-icon">♙</span> Students <span class="nav-count" id="nav-count">0</span></a>
+      <div class="side-label tools-label">OPERATIONS</div>
+      <a class="nav-item" href="#health"><span class="nav-icon">⌁</span> System health</a>
+      <a class="nav-item" href="#runbook"><span class="nav-icon">▤</span> Runbook</a>
+      <div class="sidebar-bottom">
+        <div class="mini-status"><span class="status-dot"></span><div><strong>Application online</strong><small>Local service status</small></div></div>
+        <div class="user-profile"><div class="avatar">TK</div><div><strong>Portal Admin</strong><small>Linux Lab</small></div><span class="more">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumbs">Workspace <span>/</span> <strong>Overview</strong></div>
+        <div class="top-actions"><span class="live-pill"><span class="status-dot"></span> LIVE ENVIRONMENT</span><button class="icon-button" id="refresh-btn" title="Refresh data" aria-label="Refresh data">↻</button><div class="avatar small-avatar">TK</div></div>
+      </header>
+
+      <section class="page-heading" id="dashboard">
+        <div><div class="eyebrow">LINUX ADMINISTRATION LAB <span class="eyebrow-line"></span></div>
+          <h1>Good day, Admin <span class="wave">✳</span></h1>
+          <p class="subtitle">A clear view of your student records and application operations.</p>
+        </div>
+        <button class="primary-button" id="add-open"><span>＋</span> Add student</button>
+      </section>
+
+      <section class="metrics-grid" aria-label="Portal summary">
+        <article class="metric-card"><div class="metric-top"><span>Total students</span><span class="metric-icon purple">♙</span></div><div class="metric-value" id="total-students">—</div><div class="metric-foot"><span class="trend-neutral">●</span> Records in database</div></article>
+        <article class="metric-card"><div class="metric-top"><span>API status</span><span class="metric-icon green">⌁</span></div><div class="metric-value status-value"><span class="status-dot"></span><span id="api-status">Checking</span></div><div class="metric-foot">Application health endpoint</div></article>
+        <article class="metric-card"><div class="metric-top"><span>Database</span><span class="metric-icon blue">▤</span></div><div class="metric-value status-value" id="database-status">Checking</div><div class="metric-foot">SQLite connectivity check</div></article>
+        <article class="metric-card"><div class="metric-top"><span>Service uptime</span><span class="metric-icon amber">◷</span></div><div class="metric-value" id="uptime">—</div><div class="metric-foot">Since application start</div></article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel students-panel" id="students">
+          <div class="panel-heading"><div><h2>Student directory</h2><p>Manage records stored in the application database.</p></div><button class="secondary-button" id="export-btn">↓ Export CSV</button></div>
+          <div class="table-toolbar"><label class="search-box"><span>⌕</span><input id="search-input" type="search" placeholder="Search name, email, course..." aria-label="Search students"><kbd>/</kbd></label><span class="record-label" id="record-label">Loading records…</span></div>
+          <div class="table-wrap"><table><thead><tr><th>STUDENT</th><th>COURSE</th><th>CITY</th><th>ADDED</th><th></th></tr></thead><tbody id="student-rows"><tr><td colspan="5" class="empty-cell">Loading student records…</td></tr></tbody></table></div>
+          <div class="table-footer"><span id="table-summary">Preparing your directory</span><span class="footer-tag"><span class="status-dot"></span> Synced with API</span></div>
+        </article>
+
+        <div class="right-column">
+          <article class="panel health-panel" id="health">
+            <div class="panel-heading"><div><h2>Service health</h2><p>Application-level checks</p></div><span class="health-symbol">⌁</span></div>
+            <div class="health-row"><span class="health-indicator" id="app-indicator"></span><div><strong>Node.js application</strong><small>HTTP API responding</small></div><span class="health-state" id="app-health">Checking</span></div>
+            <div class="health-row"><span class="health-indicator" id="db-indicator"></span><div><strong>SQLite database</strong><small>Read query verification</small></div><span class="health-state" id="db-health">Checking</span></div>
+            <div class="health-row"><span class="health-indicator" id="data-indicator"></span><div><strong>Student API</strong><small>Records endpoint</small></div><span class="health-state" id="data-health">Checking</span></div>
+            <div class="health-note"><span>ⓘ</span><p>For host-level checks, run <code>scripts/health_check.sh</code> on the Linux server.</p></div>
+          </article>
+
+          <article class="panel quick-panel" id="runbook">
+            <div class="panel-heading"><div><h2>Ops quick actions</h2><p>Useful checks from the Linux CLI</p></div></div>
+            <div class="command-item"><div class="command-icon">⌘</div><div><strong>Check service</strong><code>systemctl status opsdesk</code></div><button class="copy-command" data-copy="systemctl status opsdesk" title="Copy command">▢</button></div>
+            <div class="command-item"><div class="command-icon">▤</div><div><strong>View application logs</strong><code>journalctl -u opsdesk -n 50</code></div><button class="copy-command" data-copy="journalctl -u opsdesk -n 50" title="Copy command">▢</button></div>
+            <div class="command-item"><div class="command-icon">↻</div><div><strong>Run health check</strong><code>./scripts/health_check.sh</code></div><button class="copy-command" data-copy="./scripts/health_check.sh" title="Copy command">▢</button></div>
+            <div class="runbook-foot"><span class="runbook-dot"></span> Built for hands-on Linux practice <span>→</span></div>
+          </article>
+        </div>
+      </section>
+      <footer class="page-footer"><span>OpsDesk Student Portal <span class="footer-sep">•</span> Linux Administration Portfolio Project</span><span>Node.js · SQLite · Bash · systemd</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modal-backdrop" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header"><div><div class="eyebrow">STUDENT RECORD</div><h2 id="modal-title">Add student</h2></div><button class="close-button" id="modal-close" aria-label="Close dialog">×</button></div>
+      <form id="student-form">
+        <input type="hidden" id="student-id">
+        <label>Full name<input id="student-name" name="name" maxlength="100" placeholder="e.g. Tanmay Kshirsagar" required></label>
+        <label>Email address<input id="student-email" name="email" type="email" maxlength="160" placeholder="student@example.com" required></label>
+        <div class="form-row"><label>Course / track<input id="student-course" name="course" maxlength="100" placeholder="Linux Administration" required></label><label>City<input id="student-city" name="city" maxlength="100" placeholder="Pune"></label></div>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <div class="modal-actions"><button type="button" class="secondary-button" id="cancel-btn">Cancel</button><button type="submit" class="primary-button" id="save-btn">Save student</button></div>
+      </form>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

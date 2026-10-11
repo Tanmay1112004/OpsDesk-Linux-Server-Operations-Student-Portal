@@ -1,0 +1,25 @@
+[Unit]
+Description=OpsDesk Linux Operations Student Portal
+After=network.target
+
+[Service]
+Type=simple
+User=opsdesk
+Group=opsdesk
+WorkingDirectory=/opt/opsdesk
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=DB_PATH=/var/lib/opsdesk/students.db
+Environment=LOG_DIR=/var/log/opsdesk
+ExecStart=/usr/bin/node /opt/opsdesk/server.js
+Restart=on-failure
+RestartSec=5
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/opsdesk /var/log/opsdesk
+
+[Install]
+WantedBy=multi-user.target
