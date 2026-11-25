@@ -372,5 +372,3 @@ For a short interview pitch and project Q&A, see [`docs/resume-points.md`](docs/
 7. Containerize with Docker only after the Linux/systemd version is understood.
 
 ---
-
-
