@@ -104,7 +104,7 @@ If Node.js is missing, install a supported Node.js 20+ release for your distribu
 ### 2. Get the project and install dependencies
 
 ```bash
-git clone <YOUR-GITHUB-REPOSITORY-URL>
+git clone https://github.com/Tanmay1112004/OpsDesk-Linux-Server-Operations-Student-Portal
 cd linux-ops-student-portal
 chmod +x scripts/*.sh
 npm install
